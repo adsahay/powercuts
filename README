@@ -1,0 +1,33 @@
+Tweet analysis backend for http://powercuts.in
+
+Background:
+
+The Powercuts.in initiative aims to map power cuts, planned as well as unplanned,
+by crowdsourcing the data using Twitter. Whenever someone wishes to "report" a power
+cut, he or she can send a tweet - for example:
+
+#powercutindia #barrackpore #from 1110 hours #unplanned
+
+The aim of this python script(s) is to parse tweets with #powercutindia, and convert
+unstructured information into a structured form, possibly inserting the results into a 
+database.
+
+Heuristic:
+
+The input data for this heuristic is all tweets marked with #powercutindia.
+First and foremost, we eliminate tweets that are actually re-tweets. Then we try to extract:
+
+1. Who reported it,
+2. Location (geocoded),
+3. Start time or time duration (if this is missing, assume tweet time as start time),
+4. Planned or unplanned (assume unplanned if not known),
+5. End time (also for tweets reporting that power is back).
+
+The challenge is that users tweet out in their own formats - for example someone may use "1100 hours"
+while someone else may say "11am" or "11:00 am" and other variations. Similarly, location may be 
+partial or complete, with an optional pin code. Finally, there will be some junk words that will not 
+form any part of the output, like "#from" in the above example. 
+
+Finally there may be tweets which aim to promote #powercutindia, but are not actually reporting a power cut.
+
+The aim here is to get the best possible results, i.e., the aim is reasonably high accuracy, and not perfection. 
